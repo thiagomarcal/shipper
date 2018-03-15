@@ -46,7 +46,7 @@ func main() {
 		log.Fatalf("Could not parse file: %v", err)
 	}
 
-	r, err := client.CreateConsignment(context.Background(), consignment)
+	r, err := client.CreateConsignment(context.TODO(), consignment)
 	if err != nil {
 		log.Fatalf("Could not greet: %v", err)
 	}

@@ -2,15 +2,13 @@
 package main
 
 import (
-
-	// Import the generated protobuf code
 	"fmt"
 	"log"
+	"os"
 
 	micro "github.com/micro/go-micro"
 	pb "github.com/thiagomarcal/shipper/consignment-service/proto/consignment"
 	vesselProto "github.com/thiagomarcal/shipper/vessel-service/proto/vessel"
-	"golang.org/x/net/context"
 )
 
 const (
@@ -51,7 +49,7 @@ func main() {
 	srv.Init()
 
 	// Register handler
-	pb.RegisterShippingServiceHandler(srv.Server(), &service{repo, vesselClient})
+	pb.RegisterShippingServiceHandler(srv.Server(), &service{session, vesselClient})
 
 	// Run the server
 	if err := srv.Run(); err != nil {

@@ -4,3 +4,4 @@ build:
 
 run:
 	docker run -e MICRO_REGISTRY=mdns consignment-cli
+	
