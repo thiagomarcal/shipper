@@ -4,7 +4,7 @@ services:
   datastore:
       image: mongo
       ports:
-        - 27017:27017
+        - 27017:27017  
 
   database:
     image: postgres
@@ -57,9 +57,9 @@ services:
     depends_on:
       - database
 
-  user-cli:
-    build: ./user-cli
-    environment:
-      MICRO_REGISTRY: "mdns"
-    depends_on:
-      - user-service  
+  # user-cli:
+  #   build: ./user-cli
+  #   environment:
+  #     MICRO_REGISTRY: "mdns"
+  #   depends_on:
+  #     - user-service  
