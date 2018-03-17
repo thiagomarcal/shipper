@@ -2,6 +2,8 @@ package main
 
 import (
 	"errors"
+	"log"
+	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	pb "github.com/thiagomarcal/shipper/user-service/proto/user"
@@ -27,12 +29,17 @@ type TokenService struct {
 
 func (srv *TokenService) Decode(tokenString string) (*CustomClaims, error) {
 
+	log.Println("Decoding Token ...")
+
 	// Parse the token
 	token, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return key, nil
 	})
 
 	if err != nil {
+
+		log.Println("Problem parsing", err)
+
 		return nil, err
 	}
 
@@ -50,11 +57,16 @@ func (srv *TokenService) Decode(tokenString string) (*CustomClaims, error) {
 }
 
 func (srv *TokenService) Encode(user *pb.User) (string, error) {
+
+	log.Println("Encoding Token ...")
+
+	expireToken := time.Now().Add(time.Hour * 72).Unix()
+
 	// Create the Claims
 	claims := CustomClaims{
 		user,
 		jwt.StandardClaims{
-			ExpiresAt: 15000,
+			ExpiresAt: expireToken,
 			Issuer:    "go.micro.srv.user",
 		},
 	}
