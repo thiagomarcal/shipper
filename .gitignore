@@ -1,0 +1,5 @@
+./user-service/user-service
+./vessel-service/vessel-service
+./consignment-service/consignment-service
+./user-cli/user-cli
+./consignment-cli/consignment-cli
