@@ -6,6 +6,6 @@ WORKDIR /app
 COPY consignment.json /app/consignment.json
 
 ADD consignment.json /app/consignment.json
-ADD consignment-cli /app/consignment-cli
+ADD /bin/consignment-cli /app/consignment-cli
 
 ENTRYPOINT ["./consignment-cli"]

@@ -2,6 +2,6 @@ FROM debian:latest
 
 RUN mkdir /app
 WORKDIR /app
-ADD vessel-service /app/vessel-service
+ADD /bin/vessel-service /app/vessel-service
 
 CMD ["./vessel-service"]

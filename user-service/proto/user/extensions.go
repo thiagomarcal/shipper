@@ -1,4 +1,4 @@
-package go_micro_srv_user
+package shipper_user
 
 import (
 	"fmt"

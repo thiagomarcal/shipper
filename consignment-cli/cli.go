@@ -34,7 +34,7 @@ func main() {
 
 	cmd.Init()
 
-	client := pb.NewShippingServiceClient("go.micro.srv.consignment", microclient.DefaultClient)
+	client := pb.NewShippingServiceClient("shipper.consignment", microclient.DefaultClient)
 
 	// Contact the server and print out its response.
 	file := defaultFilename

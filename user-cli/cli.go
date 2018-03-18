@@ -13,14 +13,14 @@ import (
 func main() {
 
 	srv := micro.NewService(
-		micro.Name("go.micro.srv.user-cli"),
+		micro.Name("shipper.user-cli"),
 		micro.Version("latest"),
 	)
 
 	srv.Init()
 
 	// Create new greeter client
-	client := pb.NewUserServiceClient("go.micro.srv.user", microclient.DefaultClient)
+	client := pb.NewUserServiceClient("shipper.user", microclient.DefaultClient)
 
 	name := "Ewan Valentine"
 	email := "ewan.valentine89@gmail.com"

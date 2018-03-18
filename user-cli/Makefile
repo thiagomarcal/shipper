@@ -1,5 +1,5 @@
 build:
-	GOOS=linux GOARCH=amd64 go build
+	GOOS=linux GOARCH=amd64 go build -o bin/user-cli
 	docker build -t user-cli .
 
 run:

@@ -50,7 +50,7 @@ func main() {
 	createDummyData(repo)
 
 	srv := micro.NewService(
-		micro.Name("go.micro.srv.vessel"),
+		micro.Name("shipper.vessel"),
 		micro.Version("latest"),
 		micro.WrapHandler(AuthWrapper),
 	)
@@ -81,7 +81,7 @@ func AuthWrapper(fn server.HandlerFunc) server.HandlerFunc {
 		log.Println("Authenticating with token: ", token)
 
 		// Auth here
-		authClient := userService.NewUserServiceClient("go.micro.srv.user", client.DefaultClient)
+		authClient := userService.NewUserServiceClient("shipper.user", client.DefaultClient)
 		_, err := authClient.ValidateToken(ctx, &userService.Token{
 			Token: token,
 		})

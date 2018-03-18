@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"log"
 
 	pb "github.com/thiagomarcal/shipper/user-service/proto/user"
@@ -63,7 +64,7 @@ func (srv *service) Create(ctx context.Context, req *pb.User, res *pb.Response) 
 	req.Password = string(hashedPass)
 
 	if err := srv.repo.Create(req); err != nil {
-		return err
+		return errors.New(fmt.Sprintf("error creating user: %v", err))
 	}
 	res.User = req
 	return nil
