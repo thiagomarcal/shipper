@@ -8,9 +8,11 @@ import (
 	"os"
 
 	micro "github.com/micro/go-micro"
+
 	"github.com/micro/go-micro/client"
 	"github.com/micro/go-micro/metadata"
 	"github.com/micro/go-micro/server"
+	k8s "github.com/micro/kubernetes/go/micro"
 	userService "github.com/thiagomarcal/shipper/user-service/proto/user"
 	pb "github.com/thiagomarcal/shipper/vessel-service/proto/vessel"
 	"golang.org/x/net/context"
@@ -38,6 +40,8 @@ func main() {
 		host = defaultHost
 	}
 
+	log.Println("DB_HOST", host)
+
 	session, err := CreateSession(host)
 	defer session.Close()
 
@@ -49,10 +53,10 @@ func main() {
 
 	createDummyData(repo)
 
-	srv := micro.NewService(
+	srv := k8s.NewService(
 		micro.Name("shipper.vessel"),
 		micro.Version("latest"),
-		micro.WrapHandler(AuthWrapper),
+		// micro.WrapHandler(AuthWrapper),
 	)
 
 	srv.Init()

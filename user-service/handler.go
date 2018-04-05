@@ -61,6 +61,8 @@ func (srv *service) Create(ctx context.Context, req *pb.User, res *pb.Response) 
 		return err
 	}
 
+	fmt.Println("User: ", req)
+
 	req.Password = string(hashedPass)
 
 	if err := srv.repo.Create(req); err != nil {

@@ -4,6 +4,8 @@ build:
 
 	CGO_ENABLED=0 GOOS=linux go build  -o bin/vessel-service -a -installsuffix cgo main.go repository.go handler.go datastore.go  
 		docker build -t vessel-service .
+		docker tag vessel-service:latest 419011600616.dkr.ecr.us-east-1.amazonaws.com/vessel-service:latest
+		docker push 419011600616.dkr.ecr.us-east-1.amazonaws.com/vessel-service:latest
 
 run:
 	docker run -d --net="host" \
