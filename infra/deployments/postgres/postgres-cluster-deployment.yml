@@ -1,0 +1,36 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: postgres-cluster-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-cluster
+  template:
+    metadata:
+      labels:
+        app: postgres-cluster
+    spec:
+      containers:
+        - name: postgres-container
+          image: postgres
+          env:
+          - name: DB_USER
+            value: postgres
+          - name: DB_PASS
+            value: globo123
+          - name: PGDATA
+            value: /var/lib/postgresql/data/pgdata
+          ports:
+          - name: postgres
+            containerPort: 5432
+            hostPort: 5432
+          volumeMounts:
+          - name: postgres-persistent-storage
+            mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: postgres-persistent-storage
+        awsElasticBlockStore:
+          volumeID: vol-0d9a34001e1b39cd5
+          fsType: ext4

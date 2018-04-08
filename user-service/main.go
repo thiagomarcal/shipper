@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/micro/go-micro"
+	k8s "github.com/micro/kubernetes/go/micro"
 	pb "github.com/thiagomarcal/shipper/user-service/proto/user"
 )
 
@@ -30,7 +31,7 @@ func main() {
 	tokenService := &TokenService{repo}
 
 	// Create a new service. Optionally include some options here.
-	srv := micro.NewService(
+	srv := k8s.NewService(
 
 		// This name must match the package name given in your protobuf definition
 		micro.Name("shipper.user"),

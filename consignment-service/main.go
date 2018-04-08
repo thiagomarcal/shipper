@@ -8,9 +8,9 @@ import (
 	"os"
 
 	micro "github.com/micro/go-micro"
-	"github.com/micro/go-micro/client"
 	"github.com/micro/go-micro/metadata"
 	"github.com/micro/go-micro/server"
+	k8s "github.com/micro/kubernetes/go/micro"
 	pb "github.com/thiagomarcal/shipper/consignment-service/proto/consignment"
 	userService "github.com/thiagomarcal/shipper/user-service/proto/user"
 	vesselProto "github.com/thiagomarcal/shipper/vessel-service/proto/vessel"
@@ -19,6 +19,10 @@ import (
 
 const (
 	defaultHost = "localhost:27017"
+)
+
+var (
+	srv micro.Service
 )
 
 func main() {
@@ -43,14 +47,14 @@ func main() {
 		log.Panicf("Could not connect to datastore with host %s - %v", host, err)
 	}
 
-	srv := micro.NewService(
+	srv = k8s.NewService(
 		// This name must match the package name given in your protobuf definition
 		micro.Name("shipper.consignment"),
 		micro.Version("latest"),
 		micro.WrapHandler(AuthWrapper),
 	)
 
-	vesselClient := vesselProto.NewVesselServiceClient("shipper.vessel", srv.Client())
+	vesselClient := vesselProto.NewVesselServiceClient("vessel", srv.Client())
 
 	// Init will parse the command line flags.
 	srv.Init()
@@ -81,11 +85,11 @@ func AuthWrapper(fn server.HandlerFunc) server.HandlerFunc {
 		}
 
 		// Note this is now uppercase (not entirely sure why this is...)
-		token := meta["Token"]
+		token := meta["token"]
 		log.Println("Authenticating with token: ", token)
 
 		// Auth here
-		authClient := userService.NewUserServiceClient("shipper.user", client.DefaultClient)
+		authClient := userService.NewUserServiceClient("user", srv.Client())
 		_, err := authClient.ValidateToken(ctx, &userService.Token{
 			Token: token,
 		})

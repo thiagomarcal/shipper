@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   name: mongo-cluster-deployment
@@ -18,10 +18,15 @@ spec:
           containerPort: 27017
           hostPort: 27017
         volumeMounts:
-        - name: mongo-cluster-2a
-          mountPath: /data
-      volumes:
-      - name: mongo-cluster-2a
-        awsElasticBlockStore:
-          volumeID: vol-09f4c61648e7ed33c
-          fsType: ext4
+        - name: mongo-persistent-storage
+          mountPath: /data/db
+  volumeClaimTemplates:
+  - metadata:
+      name: mongo-persistent-storage
+      annotations:
+        volume.beta.kubernetes.io/storage-class: "slow"
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 10Gi        

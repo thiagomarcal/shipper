@@ -40,7 +40,7 @@ func main() {
 		host = defaultHost
 	}
 
-	log.Println("DB_HOST", host)
+	log.Println("DB_HOST3", host)
 
 	session, err := CreateSession(host)
 	defer session.Close()
